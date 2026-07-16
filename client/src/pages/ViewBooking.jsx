@@ -11,7 +11,7 @@ export default function ViewBooking() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/bookings/search/${phone}`
+        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/search/${phone}`
       );
 
       setBookings(response.data);

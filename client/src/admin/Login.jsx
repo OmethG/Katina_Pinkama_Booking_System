@@ -13,7 +13,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/admin/login",
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/admin/login",
         {
           username,
           password,

@@ -15,7 +15,7 @@ export default function BookDate() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/booked-dates")
+      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/booked-dates")
       .then((response) => {
         setBookedDates(response.data);
       })
@@ -71,7 +71,7 @@ export default function BookDate() {
   const handleBooking = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/bookings",
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings",
         {
           Name: name,
           Phone: phone,

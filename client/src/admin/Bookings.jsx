@@ -7,7 +7,7 @@ export default function Bookings() {
 
   const loadBookings = () => {
     axios
-      .get("http://localhost:5001/api/bookings/all")
+      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/all")
       .then((response) => {
         const sorted = response.data.sort(
           (a, b) => b.ID - a.ID
@@ -26,7 +26,7 @@ export default function Bookings() {
 
   const handleExport = () => {
     window.open(
-      "http://localhost:5001/api/export-bookings",
+      "https://katinapinkamabookingsystem-production.up.railway.app/api/export-bookings",
       "_blank"
     );
   };
@@ -40,7 +40,7 @@ export default function Bookings() {
 
     try {
       await axios.patch(
-        `http://localhost:5001/api/bookings/${bookingId}/cancel`
+        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/${bookingId}/cancel`
       );
 
       alert("Booking cancelled successfully.");

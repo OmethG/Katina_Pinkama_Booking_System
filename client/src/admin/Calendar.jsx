@@ -9,7 +9,7 @@ export default function CalendarPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/bookings")
+      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/bookings")
       .then((response) => {
         setBookings(response.data);
       })
