@@ -94,7 +94,7 @@ app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
 
   if (
-    username === "admin" &&
+    username === "admin@samadhiarana.com" &&
     password === "temple123"
   ) {
     return res.json({
