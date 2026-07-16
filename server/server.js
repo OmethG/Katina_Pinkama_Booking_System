@@ -91,6 +91,8 @@ app.get("/", (req, res) => {
 // ==========================================
 
 app.post("/api/admin/login", (req, res) => {
+  console.log("LOGIN ATTEMPT:", req.body);
+
   const { username, password } = req.body;
 
   if (
