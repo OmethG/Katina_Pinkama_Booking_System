@@ -1,12 +1,18 @@
+require("dotenv").config();
+
 const mysql = require("mysql2/promise");
 const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  database: "samadhiarana",
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
+  waitForConnections: true,
+  connectionLimit: 10,
 });
 
 async function importCSV() {
@@ -25,8 +31,7 @@ async function importCSV() {
           console.log(
             "Processing:",
             row.ID,
-            row.BookingDate,
-            row.CreatedAt
+            row.BookingDate
           );
 
           const bookingDate = new Date(row.BookingDate);
@@ -63,26 +68,36 @@ async function importCSV() {
               Phone,
               BookingTypeID,
               BookingDate,
-              CreatedAt
+              CreatedAt,
+              Status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `,
             [
               Number(row.ID),
               row.Name,
               row.Whatsapp || null,
               row.Phone || null,
-              Number(row.BookingType || 0),
+              Number(row.BookingTypeID || 0),
               bookingDate
                 .toISOString()
                 .split("T")[0],
               createdAt,
+              "Active",
             ]
           );
         }
 
+        const [count] = await db.query(
+          "SELECT COUNT(*) AS total FROM bookings"
+        );
+
         console.log(
-          `✅ Imported ${rows.length} bookings`
+          `✅ Imported ${rows.length} rows`
+        );
+
+        console.log(
+          `✅ Database now contains ${count[0].total} bookings`
         );
 
         process.exit(0);

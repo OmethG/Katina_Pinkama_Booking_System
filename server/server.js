@@ -1,3 +1,9 @@
+require("dotenv").config();
+
+console.log("HOST =", process.env.MYSQLHOST);
+console.log("USER =", process.env.MYSQLUSER);
+console.log("DATABASE =", process.env.MYSQLDATABASE);
+
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
@@ -12,12 +18,37 @@ app.use(express.json());
 // ==========================================
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  database: "katina_pinkama_booking",
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
   waitForConnections: true,
   connectionLimit: 10,
 });
+
+// ==========================================
+// TEST MYSQL CONNECTION
+// ==========================================
+
+(async () => {
+  try {
+    const connection = await db.getConnection();
+
+    console.log("✅ MySQL Connected");
+
+    const [databaseResult] = await connection.query(
+      "SELECT DATABASE() AS db"
+    );
+
+    console.log("ACTIVE DATABASE:", databaseResult[0].db);
+
+    connection.release();
+  } catch (error) {
+    console.error("❌ MySQL Connection Failed");
+    console.error(error);
+  }
+})();
 
 // ==========================================
 // TEST MYSQL CONNECTION
