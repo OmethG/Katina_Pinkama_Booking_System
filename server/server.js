@@ -294,6 +294,66 @@ app.patch(
 );
 
 // ==========================================
+// DELETE SELECTED CANCELLED BOOKINGS
+// ==========================================
+
+app.delete(
+  "/api/bookings/delete-cancelled",
+  async (req, res) => {
+    try {
+      const { ids } = req.body;
+
+      if (!ids || ids.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No booking IDs provided",
+        });
+      }
+
+      const placeholders = ids
+        .map(() => "?")
+        .join(",");
+
+      await db.query(
+        `
+        DELETE FROM bookings
+        WHERE ID IN (${placeholders})
+        AND Status = 'Cancelled'
+        `,
+        ids
+      );
+
+      const [countRows] = await db.query(
+        `
+        SELECT COUNT(*) AS total
+        FROM bookings
+        `
+      );
+
+      if (countRows[0].total === 0) {
+        await db.query(
+          `
+          ALTER TABLE bookings
+          AUTO_INCREMENT = 1
+          `
+        );
+      }
+
+      res.json({
+        success: true,
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+);
+
+// ==========================================
 // EXPORT BOOKINGS
 // ==========================================
 
