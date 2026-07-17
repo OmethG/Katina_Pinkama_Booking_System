@@ -9,6 +9,16 @@ export default function ViewBooking() {
   const [phone, setPhone] = useState("");
   const [bookings, setBookings] = useState([]);
   const [searched, setSearched] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+
+  const isValidPhone = (number) => {
+    const cleaned = number.replace(/\s+/g, "");
+
+    const uaeRegex = /^\+971(50|52|54|55|56|58)\d{7}$/;
+    const sriLankaRegex = /^\+947\d{8}$/;
+
+    return uaeRegex.test(cleaned) || sriLankaRegex.test(cleaned);
+  };
 
   const formatBookingDate = (dateString) => {
     if (!dateString) return "-";
@@ -21,11 +31,25 @@ export default function ViewBooking() {
   };
 
   const handleSearch = async () => {
-    if (!phone.trim()) return;
+    if (!phone.trim()) {
+      setPhoneError("Please enter a phone number.");
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      setPhoneError(
+        "Please enter a valid phone number starting with +971 or +94."
+      );
+      return;
+    }
+
+    setPhoneError("");
 
     try {
+      const cleanedPhone = phone.replace(/\s+/g, "");
+
       const response = await axios.get(
-        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/search/${phone}`
+        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/search/${cleanedPhone}`
       );
 
       setBookings(response.data);
@@ -52,12 +76,15 @@ export default function ViewBooking() {
           View My Booking
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className="flex flex-col md:flex-row gap-4 mb-2">
           <input
             type="text"
             placeholder="Enter Phone Number"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setPhoneError("");
+            }}
             className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
 
@@ -69,7 +96,13 @@ export default function ViewBooking() {
           </button>
         </div>
 
-        {searched && bookings.length === 0 && (
+        {phoneError && (
+          <p className="text-red-500 text-sm mb-6">
+            {phoneError}
+          </p>
+        )}
+
+        {searched && bookings.length === 0 && !phoneError && (
           <div className="text-center text-red-500 font-medium text-lg">
             No booking found.
           </div>
