@@ -401,9 +401,12 @@ app.get("/api/export-bookings", async (req, res) => {
     const now = new Date();
 
     const fileName = `bookings_${now
-      .toLocaleDateString("en-GB")
+      .toLocaleDateString("en-GB", {
+        timeZone: "Asia/Dubai",
+      })
       .replace(/\//g, "-")}_${now
       .toLocaleTimeString("en-GB", {
+        timeZone: "Asia/Dubai",
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
