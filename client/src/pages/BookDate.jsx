@@ -10,12 +10,15 @@ export default function BookDate() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+  const [bookingType, setBookingType] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [bookedDates, setBookedDates] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/booked-dates")
+      .get(
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/booked-dates"
+      )
       .then((response) => {
         setBookedDates(response.data);
       })
@@ -27,11 +30,7 @@ export default function BookDate() {
   const formatDate = (date) => {
     return date.toISOString().split("T")[0];
   };
-
-  const isBookedDate = (date) => {
-    return bookedDates.includes(formatDate(date));
-  };
-
+  
   const minDate = new Date("2026-07-27");
   const maxDate = new Date("2026-10-24");
 
@@ -66,6 +65,7 @@ export default function BookDate() {
     isValidFullName(name) &&
     isValidUAEPhone(phone) &&
     isValidUAEPhone(whatsapp) &&
+    bookingType &&
     selectedDate;
 
   const handleBooking = async () => {
@@ -76,6 +76,7 @@ export default function BookDate() {
           Name: name,
           Phone: phone,
           Whatsapp: whatsapp,
+          BookingType: bookingType,
           BookingDate: formatDate(selectedDate),
         }
       );
@@ -108,6 +109,7 @@ export default function BookDate() {
         </p>
 
         <div className="space-y-5">
+          {/* Full Name */}
           <div>
             <label className="block mb-2 font-medium">
               Full Name
@@ -130,6 +132,7 @@ export default function BookDate() {
             )}
           </div>
 
+          {/* Phone */}
           <div>
             <label className="block mb-2 font-medium">
               Phone Number
@@ -152,6 +155,7 @@ export default function BookDate() {
             )}
           </div>
 
+          {/* WhatsApp */}
           <div>
             <label className="block mb-2 font-medium">
               WhatsApp Number
@@ -174,15 +178,57 @@ export default function BookDate() {
             )}
           </div>
 
+          {/* Booking Type */}
+          <div>
+            <label className="block mb-2 font-medium">
+              Booking Type / අවශ්‍යය පිංකම
+            </label>
+
+            <select
+              value={bookingType}
+              onChange={(e) =>
+                setBookingType(e.target.value)
+              }
+              className="w-full border rounded-lg px-4 py-3 bg-white"
+            >
+              <option value="">
+                Select Booking Type
+              </option>
+
+              <option value="සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ සත් බුදු වන්දනාව">
+                සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ සත් බුදු වන්දනාව
+              </option>
+
+              <option value="සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ පිරිත් සජ්ඣායනාව">
+                සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ පිරිත් සජ්ඣායනාව
+              </option>
+
+              <option value="සමාධි අරණ ස්වාමීන් වහන්සේ විසින් පවත්වනු ලබන ධර්ම දේශනාව">
+                සමාධි අරණ ස්වාමීන් වහන්සේ විසින් පවත්වනු ලබන ධර්ම දේශනාව
+              </option>
+
+              <option value="සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ සුගත චීවර වන්දනාව">
+                සමාධි අරණ ස්වාමීන් වහන්සේ සමඟ සුගත චීවර වන්දනාව
+              </option>
+
+              <option value="සමාධි අරණ ස්වාමීන් වහන්සේ නොමැතිව සුගත චීවර වන්දනාව">
+                සමාධි අරණ ස්වාමීන් වහන්සේ නොමැතිව සුගත චීවර වන්දනාව
+              </option>
+            </select>
+          </div>
+
+          {/* Calendar */}
           <div className="bg-white p-4 rounded-xl shadow">
-          <Calendar
+            <Calendar
               onChange={setSelectedDate}
               value={selectedDate}
               minDate={minDate}
               maxDate={maxDate}
               showNeighboringMonth={false}
               tileDisabled={({ date }) =>
-                bookedDates.includes(formatDate(date))
+                bookedDates.includes(
+                  formatDate(date)
+                )
               }
             />
           </div>

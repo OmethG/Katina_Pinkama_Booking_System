@@ -91,8 +91,6 @@ app.get("/", (req, res) => {
 // ==========================================
 
 app.post("/api/admin/login", (req, res) => {
-  console.log("LOGIN ATTEMPT:", req.body);
-
   const { username, password } = req.body;
 
   if (
@@ -217,6 +215,7 @@ app.post("/api/bookings", async (req, res) => {
       Name,
       Phone,
       Whatsapp,
+      BookingType,
       BookingDate,
     } = req.body;
 
@@ -228,16 +227,18 @@ app.post("/api/bookings", async (req, res) => {
         Whatsapp,
         Phone,
         BookingTypeID,
+        BookingType,
         BookingDate,
         Status
       )
-      VALUES (?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       [
         Name,
         Whatsapp || null,
         Phone || null,
         0,
+        BookingType || null,
         BookingDate,
         "Active",
       ]
@@ -304,10 +305,10 @@ app.get("/api/export-bookings", async (req, res) => {
     `);
 
     let csv =
-      "ID,Name,Whatsapp,Phone,BookingTypeID,BookingDate,Status,CreatedAt\n";
+      "ID,Name,Whatsapp,Phone,BookingTypeID,BookingType,BookingDate,Status,CreatedAt\n";
 
     rows.forEach((row) => {
-      csv += `${row.ID},"${row.Name}","${row.Whatsapp || ""}","${row.Phone || ""}",${row.BookingTypeID},"${row.BookingDate.toISOString().split("T")[0]}","${row.Status}","${row.CreatedAt}"\n`;
+      csv += `${row.ID},"${row.Name}","${row.Whatsapp || ""}","${row.Phone || ""}",${row.BookingTypeID},"${row.BookingType || ""}","${row.BookingDate.toISOString().split("T")[0]}","${row.Status}","${row.CreatedAt}"\n`;
     });
 
     res.setHeader(
