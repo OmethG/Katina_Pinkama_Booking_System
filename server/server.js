@@ -229,9 +229,10 @@ app.post("/api/bookings", async (req, res) => {
         BookingTypeID,
         BookingType,
         BookingDate,
-        Status
+        Status,
+        CreatedAt
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
       `,
       [
         Name,
