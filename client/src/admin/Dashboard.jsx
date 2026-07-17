@@ -158,20 +158,24 @@ export default function Dashboard() {
             <table className="w-full">
               <thead>
                 <tr className="border-b bg-gray-50">
-                  <th className="text-left py-3 px-2">
-                    Booking ID
+                  <th className="text-left py-3 px-2 w-16">
+                    ID
                   </th>
 
-                  <th className="text-left py-3 px-2">
+                  <th className="text-left py-3 px-2 w-1/4">
                     Name
                   </th>
 
-                  <th className="text-left py-3 px-2">
+                  <th className="text-left py-3 px-2 w-1/5">
                     Phone
                   </th>
 
                   <th className="text-left py-3 px-2">
-                    Booking Date
+                    Booking Type
+                  </th>
+
+                  <th className="text-left py-3 px-2 w-32">
+                    Date
                   </th>
                 </tr>
               </thead>
@@ -182,7 +186,7 @@ export default function Dashboard() {
                     key={booking.ID}
                     className="border-b hover:bg-gray-50"
                   >
-                    <td className="py-3 px-2">
+                    <td className="py-3 px-2 font-medium text-gray-600">
                       {booking.ID}
                     </td>
 
@@ -192,6 +196,10 @@ export default function Dashboard() {
 
                     <td className="py-3 px-2">
                       {booking.Phone}
+                    </td>
+
+                    <td className="py-3 px-2 text-gray-700">
+                      {booking.BookingType || "-"}
                     </td>
 
                     <td className="py-3 px-2">
