@@ -398,6 +398,18 @@ app.get("/api/export-bookings", async (req, res) => {
     // UTF-8 BOM for Excel Sinhala support
     const csvWithBom = "\uFEFF" + csv;
 
+    const now = new Date();
+
+    const fileName = `bookings_${now
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-")}_${now
+      .toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+      .replace(":", "-")}.csv`;
+
     res.setHeader(
       "Content-Type",
       "text/csv; charset=utf-8"
@@ -405,7 +417,7 @@ app.get("/api/export-bookings", async (req, res) => {
 
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=bookings.csv"
+      `attachment; filename="${fileName}"`
     );
 
     res.send(csvWithBom);
