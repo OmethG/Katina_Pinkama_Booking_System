@@ -6,10 +6,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-orange-50 px-4">
-      <div className="bg-white p-12 rounded-3xl shadow-xl w-full max-w-2xl">
+      <div className="w-full max-w-2xl">
 
         {/* Logo */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6">
           <img
             src={logo}
             alt="Samadhi Arana Logo"
@@ -17,17 +17,20 @@ export default function Home() {
           />
         </div>
 
-        {/* Main Title */}
-        <h1 className="text-7xl font-bold text-center mb-5 leading-tight">
-          2026 වස්සාන කාළය
-        </h1>
+        {/* Title */}
+        <div className="text-center mb-12">
+          <h1 className="text-7xl font-bold leading-tight">
+            2026
+          </h1>
 
-        {/* Description */}
-        <p className="text-center text-gray-600 text-2xl leading-relaxed mb-12">
-          නිවෙස් වල පවත්වන පින්කම් සදහා
-          <br />
-          දින වෙන් කරගැනීම.
-        </p>
+          <h2 className="text-3xl font-semibold mt-2">
+            වස්සාන කාළය
+          </h2>
+
+          <h2 className="text-3xl font-semibold mt-1">
+            දින වෙන් කරගැනීම
+          </h2>
+        </div>
 
         {/* Action Buttons */}
         <div className="space-y-6">
