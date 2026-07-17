@@ -4,8 +4,6 @@ import axios from "axios";
 import {
   Users,
   Calendar,
-  Settings,
-  UserCog,
   LogOut,
 } from "lucide-react";
 
@@ -99,22 +97,6 @@ export default function Dashboard() {
           >
             <Calendar size={20} />
             Calendar
-          </button>
-
-          <button
-            onClick={() => navigate("/admin/staff")}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
-          >
-            <UserCog size={20} />
-            Staff
-          </button>
-
-          <button
-            onClick={() => navigate("/admin/settings")}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
-          >
-            <Settings size={20} />
-            Settings
           </button>
 
           <button
