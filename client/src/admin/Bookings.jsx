@@ -55,24 +55,6 @@ export default function Bookings() {
     }
   };
 
-  const formatCreatedAt = (dateString) => {
-    if (!dateString) return "-";
-
-    const date = new Date(dateString);
-
-    if (isNaN(date.getTime())) {
-      return "-";
-    }
-
-    return date.toLocaleString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   const formatBookingDate = (dateString) => {
     if (!dateString) return "-";
 
@@ -83,6 +65,21 @@ export default function Bookings() {
     }
 
     return date.toLocaleDateString("en-GB");
+  };
+
+  const formatBookingTime = (dateString) => {
+    if (!dateString) return "-";
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      return "-";
+    }
+
+    return date.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   const filteredBookings = bookings.filter((booking) => {
@@ -134,8 +131,8 @@ export default function Bookings() {
               <th className="text-left p-4">WhatsApp</th>
               <th className="text-left p-4">Booking Type</th>
               <th className="text-left p-4">Booking Date</th>
+              <th className="text-left p-4">Booking Time</th>
               <th className="text-left p-4">Status</th>
-              <th className="text-left p-4">Booked On</th>
               <th className="text-left p-4">Action</th>
             </tr>
           </thead>
@@ -148,8 +145,11 @@ export default function Bookings() {
                   className="border-b hover:bg-gray-50"
                 >
                   <td className="p-4">{booking.ID}</td>
+
                   <td className="p-4">{booking.Name}</td>
+
                   <td className="p-4">{booking.Phone}</td>
+
                   <td className="p-4">{booking.Whatsapp}</td>
 
                   <td className="p-4">
@@ -163,6 +163,12 @@ export default function Bookings() {
                   </td>
 
                   <td className="p-4">
+                    {formatBookingTime(
+                      booking.CreatedAt
+                    )}
+                  </td>
+
+                  <td className="p-4">
                     <span
                       className={
                         booking.Status === "Cancelled"
@@ -172,12 +178,6 @@ export default function Bookings() {
                     >
                       {booking.Status || "Active"}
                     </span>
-                  </td>
-
-                  <td className="p-4">
-                    {formatCreatedAt(
-                      booking.CreatedAt
-                    )}
                   </td>
 
                   <td className="p-4">
