@@ -16,7 +16,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/bookings")
+      .get(
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings"
+      )
       .then((response) => {
         setBookings(response.data);
       })
@@ -49,8 +51,20 @@ export default function Dashboard() {
   }).length;
 
   const latestBookings = [...bookings]
-    .reverse()
+    .sort((a, b) => b.ID - a.ID)
     .slice(0, 5);
+
+  const formatBookingDate = (dateString) => {
+    if (!dateString) return "-";
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      return "-";
+    }
+
+    return date.toLocaleDateString("en-GB");
+  };
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -199,7 +213,9 @@ export default function Dashboard() {
                     </td>
 
                     <td className="py-3 px-2">
-                      {booking.BookingDate}
+                      {formatBookingDate(
+                        booking.BookingDate
+                      )}
                     </td>
                   </tr>
                 ))}
