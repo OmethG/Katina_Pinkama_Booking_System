@@ -305,16 +305,42 @@ app.get("/api/export-bookings", async (req, res) => {
       ORDER BY ID DESC
     `);
 
+    const formatDate = (date) => {
+      if (!date) return "";
+
+      return new Date(date).toLocaleDateString(
+        "en-GB"
+      );
+    };
+
+    const formatDateTime = (date) => {
+      if (!date) return "";
+
+      return new Date(date).toLocaleString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      );
+    };
+
     let csv =
       "ID,Name,Whatsapp,Phone,BookingTypeID,BookingType,BookingDate,Status,CreatedAt\n";
 
     rows.forEach((row) => {
-      csv += `${row.ID},"${row.Name}","${row.Whatsapp || ""}","${row.Phone || ""}",${row.BookingTypeID},"${row.BookingType || ""}","${row.BookingDate.toISOString().split("T")[0]}","${row.Status}","${row.CreatedAt}"\n`;
+      csv += `${row.ID},"${row.Name || ""}","${row.Whatsapp || ""}","${row.Phone || ""}",${row.BookingTypeID},"${row.BookingType || ""}","${formatDate(row.BookingDate)}","${row.Status || ""}","${formatDateTime(row.CreatedAt)}"\n`;
     });
+
+    // UTF-8 BOM for Excel Sinhala support
+    const csvWithBom = "\uFEFF" + csv;
 
     res.setHeader(
       "Content-Type",
-      "text/csv"
+      "text/csv; charset=utf-8"
     );
 
     res.setHeader(
@@ -322,7 +348,7 @@ app.get("/api/export-bookings", async (req, res) => {
       "attachment; filename=bookings.csv"
     );
 
-    res.send(csv);
+    res.send(csvWithBom);
   } catch (error) {
     console.error(error);
 
