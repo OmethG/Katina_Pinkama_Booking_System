@@ -10,7 +10,9 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await axios.post(
         "https://katinapinkamabookingsystem-production.up.railway.app/api/admin/login",
@@ -40,38 +42,42 @@ export default function Login() {
           Admin Login
         </h1>
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) =>
-            setUsername(e.target.value)
-          }
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
-        />
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setError("");
+            }}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
 
-        {error && (
-          <div className="text-red-500 text-sm mb-4">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="text-red-500 text-sm mb-4">
+              {error}
+            </div>
+          )}
 
-        <button
-          onClick={handleLogin}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl transition"
-        >
-          Login
-        </button>
+          <button
+            type="submit"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl transition"
+          >
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );
