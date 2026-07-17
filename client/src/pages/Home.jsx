@@ -5,7 +5,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-orange-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="w-full max-w-2xl">
 
         {/* Logo */}
@@ -13,21 +13,21 @@ export default function Home() {
           <img
             src={logo}
             alt="Samadhi Arana Logo"
-            className="h-56 w-auto"
+            className="h-72 w-auto"
           />
         </div>
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-7xl font-bold leading-tight">
+          <h1 className="text-6xl font-bold leading-tight">
             2026
           </h1>
 
-          <h2 className="text-3xl font-semibold mt-2">
+          <h2 className="text-2xl font-semibold mt-2">
             වස්සාන කාළය
           </h2>
 
-          <h2 className="text-3xl font-semibold mt-1">
+          <h2 className="text-2xl font-semibold mt-1">
             දින වෙන් කරගැනීම
           </h2>
         </div>
