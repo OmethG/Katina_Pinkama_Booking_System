@@ -19,11 +19,11 @@ export default function Home() {
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold leading-tight">
+          <h1 className="text-4xl font-bold leading-tight">
             2026
           </h1>
 
-          <h2 className="text-2xl font-semibold mt-2">
+          <h2 className="text-3xl font-semibold mt-2">
             වස්සාන කාළය
           </h2>
 
