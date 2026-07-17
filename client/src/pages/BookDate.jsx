@@ -30,15 +30,13 @@ export default function BookDate() {
   const formatDate = (date) => {
     return date.toISOString().split("T")[0];
   };
-  
+
   const minDate = new Date("2026-07-27");
   const maxDate = new Date("2026-10-24");
 
-  const isValidUAEPhone = (number) => {
-    const regex =
-      /^(?:\+971|971|0)(50|52|54|55|56|58)\d{7}$/;
-
-    return regex.test(number);
+  const isValidPhone = (number) => {
+    const regex = /^(\+971\d{9}|\+94\d{9})$/;
+    return regex.test(number.trim());
   };
 
   const isValidFullName = (fullName) => {
@@ -54,17 +52,17 @@ export default function BookDate() {
     name.trim() === "" ? true : isValidFullName(name);
 
   const isPhoneValid =
-    phone.trim() === "" ? true : isValidUAEPhone(phone);
+    phone.trim() === "" ? true : isValidPhone(phone);
 
   const isWhatsappValid =
     whatsapp.trim() === ""
       ? true
-      : isValidUAEPhone(whatsapp);
+      : isValidPhone(whatsapp);
 
   const canBook =
     isValidFullName(name) &&
-    isValidUAEPhone(phone) &&
-    isValidUAEPhone(whatsapp) &&
+    isValidPhone(phone) &&
+    isValidPhone(whatsapp) &&
     bookingType &&
     selectedDate;
 
@@ -140,7 +138,7 @@ export default function BookDate() {
 
             <input
               type="text"
-              placeholder="0501234567 or +971501234567"
+              placeholder="+971501234567 or +94771234567"
               value={phone}
               onChange={(e) =>
                 setPhone(e.target.value)
@@ -150,7 +148,7 @@ export default function BookDate() {
 
             {!isPhoneValid && (
               <p className="text-red-500 text-sm mt-1">
-                Invalid UAE phone number.
+                Enter a valid UAE (+971) or Sri Lankan (+94) phone number.
               </p>
             )}
           </div>
@@ -163,7 +161,7 @@ export default function BookDate() {
 
             <input
               type="text"
-              placeholder="0501234567 or +971501234567"
+              placeholder="+971501234567 or +94771234567"
               value={whatsapp}
               onChange={(e) =>
                 setWhatsapp(e.target.value)
@@ -173,7 +171,7 @@ export default function BookDate() {
 
             {!isWhatsappValid && (
               <p className="text-red-500 text-sm mt-1">
-                Invalid UAE WhatsApp number.
+                Enter a valid UAE (+971) or Sri Lankan WhatsApp number.
               </p>
             )}
           </div>

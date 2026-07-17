@@ -18,7 +18,7 @@ export default function Home() {
         </div>
 
         {/* Main Title */}
-        <h1 className="text-6xl font-bold text-center mb-5 leading-tight">
+        <h1 className="text-7xl font-bold text-center mb-5 leading-tight">
           2026 වස්සාන කාළය
         </h1>
 
