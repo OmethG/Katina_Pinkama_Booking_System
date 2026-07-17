@@ -7,13 +7,13 @@ export default function ViewBooking() {
   const [searched, setSearched] = useState(false);
 
   const formatBookingDate = (dateString) => {
-    const date = new Date(dateString);
+    if (!dateString) return "-";
 
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
+    const [year, month, day] = dateString
+      .split("T")[0]
+      .split("-");
+
+    return `${day}/${month}/${year}`;
   };
 
   const handleSearch = async () => {
@@ -90,7 +90,9 @@ export default function ViewBooking() {
                       {booking.BookingType || "-"}
                     </td>
                     <td className="p-4">
-                      {formatBookingDate(booking.BookingDate)}
+                      {formatBookingDate(
+                        booking.BookingDate
+                      )}
                     </td>
                   </tr>
                 ))}
