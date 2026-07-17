@@ -35,8 +35,11 @@ export default function BookDate() {
   const maxDate = new Date("2026-10-24");
 
   const isValidPhone = (number) => {
+    const cleaned = number.replace(/\s+/g, "");
+
     const regex = /^(\+971\d{9}|\+94\d{9})$/;
-    return regex.test(number.trim());
+
+    return regex.test(cleaned);
   };
 
   const isValidFullName = (fullName) => {
@@ -72,8 +75,8 @@ export default function BookDate() {
         "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings",
         {
           Name: name,
-          Phone: phone,
-          Whatsapp: whatsapp,
+          Phone: phone.replace(/\s+/g, ""),
+          Whatsapp: whatsapp.replace(/\s+/g, ""),
           BookingType: bookingType,
           BookingDate: formatDate(selectedDate),
         }
