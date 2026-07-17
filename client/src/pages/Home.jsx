@@ -27,7 +27,7 @@ export default function Home() {
             වස්සාන කාළය
           </h2>
 
-          <h2 className="text-lg text-gray-500 font-normal leading-relaxed mt-4">
+          <h2 className="text-3xl text-gray-500 font-normal leading-relaxed mt-4">
             නිවෙස් වල පවත්වන පින්කම් සදහා
           </h2>
         </div>
