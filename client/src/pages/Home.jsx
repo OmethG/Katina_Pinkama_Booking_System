@@ -28,7 +28,7 @@ export default function Home() {
           </h2>
 
           <h2 className="text-2xl font-semibold mt-1">
-            දින වෙන් කරගැනීම
+            නිවෙස් වල පවත්වන පින්කම් සදහා
           </h2>
         </div>
 
