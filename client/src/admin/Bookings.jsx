@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 
 export default function Bookings() {
+  const navigate = useNavigate();
+
   const [bookings, setBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -96,6 +100,15 @@ export default function Bookings() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
+
+      <button
+        onClick={() => navigate("/admin/dashboard")}
+        className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6"
+      >
+        <ArrowLeft size={20} />
+        Back to Dashboard
+      </button>
+
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">

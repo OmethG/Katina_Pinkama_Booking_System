@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 
 export default function ViewBooking() {
+  const navigate = useNavigate();
+
   const [phone, setPhone] = useState("");
   const [bookings, setBookings] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -35,6 +39,15 @@ export default function ViewBooking() {
   return (
     <div className="min-h-screen bg-[#f3f3f3] flex justify-center items-start py-12">
       <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-8">
+
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6"
+        >
+          <ArrowLeft size={20} />
+          Back to Home
+        </button>
+
         <h1 className="text-3xl font-bold text-center mb-8">
           View My Booking
         </h1>
@@ -100,6 +113,7 @@ export default function ViewBooking() {
             </table>
           </div>
         )}
+
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Calendar from "react-calendar";
@@ -105,6 +106,14 @@ export default function BookDate() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f3f3f3] p-8">
       <div className="w-full max-w-3xl bg-white rounded-3xl shadow-lg p-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-4"
+        >
+          <ArrowLeft size={20} />
+          Back
+        </button>
+        
         <p className="mb-6 text-sm text-gray-500">
           Home / Booking
         </p>

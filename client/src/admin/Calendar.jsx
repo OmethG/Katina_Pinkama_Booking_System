@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 export default function CalendarPage() {
+  const navigate = useNavigate();
+
   const [date, setDate] = useState(new Date());
   const [bookings, setBookings] = useState([]);
 
@@ -33,6 +37,15 @@ export default function CalendarPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
+
+      <button
+        onClick={() => navigate("/admin/dashboard")}
+        className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6"
+      >
+        <ArrowLeft size={20} />
+        Back to Dashboard
+      </button>
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold">
           Calendar Management
@@ -157,8 +170,7 @@ export default function CalendarPage() {
             {date.toLocaleDateString("en-GB")}
           </h2>
 
-          {selectedDateBookings.length >
-          0 ? (
+          {selectedDateBookings.length > 0 ? (
             <div className="space-y-4">
               {selectedDateBookings.map(
                 (booking) => (
