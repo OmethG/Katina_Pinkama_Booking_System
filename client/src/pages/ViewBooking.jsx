@@ -38,7 +38,7 @@ export default function ViewBooking() {
 
     if (!isValidPhone(phone)) {
       setPhoneError(
-        "Please enter a valid phone number starting with +971 or +94."
+        "Please enter a valid phone number starting with +971 or +94 and 9 digits."
       );
       return;
     }
