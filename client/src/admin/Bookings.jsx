@@ -7,7 +7,9 @@ export default function Bookings() {
 
   const loadBookings = () => {
     axios
-      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/all")
+      .get(
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/all"
+      )
       .then((response) => {
         const sorted = response.data.sort(
           (a, b) => b.ID - a.ID
@@ -90,7 +92,8 @@ export default function Bookings() {
       booking.ID?.toString().includes(search) ||
       booking.Name?.toLowerCase().includes(search) ||
       booking.Phone?.includes(search) ||
-      booking.Whatsapp?.includes(search)
+      booking.Whatsapp?.includes(search) ||
+      booking.BookingType?.toLowerCase().includes(search)
     );
   });
 
@@ -114,7 +117,7 @@ export default function Bookings() {
       <div className="bg-white rounded-2xl shadow p-4 mb-6">
         <input
           type="text"
-          placeholder="Search by ID, Name, Phone or WhatsApp..."
+          placeholder="Search by ID, Name, Phone, WhatsApp or Booking Type..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500"
@@ -129,6 +132,7 @@ export default function Bookings() {
               <th className="text-left p-4">Name</th>
               <th className="text-left p-4">Phone</th>
               <th className="text-left p-4">WhatsApp</th>
+              <th className="text-left p-4">Booking Type</th>
               <th className="text-left p-4">Booking Date</th>
               <th className="text-left p-4">Status</th>
               <th className="text-left p-4">Booked On</th>
@@ -147,6 +151,10 @@ export default function Bookings() {
                   <td className="p-4">{booking.Name}</td>
                   <td className="p-4">{booking.Phone}</td>
                   <td className="p-4">{booking.Whatsapp}</td>
+
+                  <td className="p-4">
+                    {booking.BookingType || "-"}
+                  </td>
 
                   <td className="p-4">
                     {formatBookingDate(
@@ -196,7 +204,7 @@ export default function Bookings() {
             ) : (
               <tr>
                 <td
-                  colSpan="8"
+                  colSpan="9"
                   className="text-center p-6 text-gray-500"
                 >
                   No bookings found

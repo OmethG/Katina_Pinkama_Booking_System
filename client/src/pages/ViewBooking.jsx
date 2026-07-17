@@ -24,7 +24,7 @@ export default function ViewBooking() {
 
   return (
     <div className="min-h-screen bg-[#f3f3f3] flex justify-center items-start py-12">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-8">
+      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-center mb-8">
           View My Booking
         </h1>
@@ -61,6 +61,7 @@ export default function ViewBooking() {
                   <th className="p-4 text-left">Name</th>
                   <th className="p-4 text-left">Phone</th>
                   <th className="p-4 text-left">WhatsApp</th>
+                  <th className="p-4 text-left">Booking Type</th>
                   <th className="p-4 text-left">Booking Date</th>
                 </tr>
               </thead>
@@ -75,6 +76,9 @@ export default function ViewBooking() {
                     <td className="p-4">{booking.Name}</td>
                     <td className="p-4">{booking.Phone}</td>
                     <td className="p-4">{booking.Whatsapp}</td>
+                    <td className="p-4">
+                      {booking.BookingType || "-"}
+                    </td>
                     <td className="p-4">{booking.BookingDate}</td>
                   </tr>
                 ))}

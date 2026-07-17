@@ -9,7 +9,9 @@ export default function CalendarPage() {
 
   useEffect(() => {
     axios
-      .get("https://katinapinkamabookingsystem-production.up.railway.app/api/bookings")
+      .get(
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings"
+      )
       .then((response) => {
         setBookings(response.data);
       })
@@ -18,7 +20,6 @@ export default function CalendarPage() {
       });
   }, []);
 
-  // MYSQL DATE FORMAT
   const formatDate = (date) => {
     return date.toISOString().split("T")[0];
   };
@@ -32,7 +33,6 @@ export default function CalendarPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">
           Calendar Management
@@ -43,7 +43,6 @@ export default function CalendarPage() {
         </p>
       </div>
 
-      {/* Stats */}
       <div className="grid md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-2xl shadow p-6">
           <h3 className="text-gray-500">
@@ -77,7 +76,6 @@ export default function CalendarPage() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        {/* Calendar */}
         <div className="bg-white rounded-2xl shadow p-6">
           <div className="flex gap-6 mb-6 text-sm">
             <div className="flex items-center gap-2">
@@ -153,7 +151,6 @@ export default function CalendarPage() {
           />
         </div>
 
-        {/* Booking Details */}
         <div className="bg-white rounded-2xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">
             Bookings for{" "}
@@ -189,6 +186,14 @@ export default function CalendarPage() {
                         WhatsApp:
                       </strong>{" "}
                       {booking.Whatsapp}
+                    </p>
+
+                    <p>
+                      <strong>
+                        Booking Type:
+                      </strong>{" "}
+                      {booking.BookingType ||
+                        "-"}
                     </p>
 
                     <p>
