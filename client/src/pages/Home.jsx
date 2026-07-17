@@ -53,7 +53,7 @@ export default function Home() {
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
-                වෙන්කරවා ගැනීම බලන්න
+                වෙන්කිරීමේ විස්තර
               </span>
 
               <span className="text-base font-normal mt-1">
