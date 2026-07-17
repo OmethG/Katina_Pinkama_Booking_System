@@ -13,7 +13,7 @@ export default function Home() {
           <img
             src={logo}
             alt="Samadhi Arana Logo"
-            className="h-72 w-auto"
+            className="h-80 w-auto"
           />
         </div>
 
