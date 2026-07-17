@@ -79,7 +79,7 @@ export default function ViewBooking() {
         <div className="flex flex-col md:flex-row gap-4 mb-2">
           <input
             type="text"
-            placeholder="Enter Phone Number"
+            placeholder="Enter a valid phone number (+971 or +94)"
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
