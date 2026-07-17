@@ -24,20 +24,34 @@ export default function CalendarPage() {
       });
   }, []);
 
+  // FIXED: No UTC conversion
   const formatDate = (date) => {
-    return date.toISOString().split("T")[0];
+    const year = date.getFullYear();
+
+    const month = String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+      date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   };
 
   const selectedDateBookings = bookings.filter(
-    (booking) =>
-      booking.BookingDate &&
-      booking.BookingDate.split("T")[0] ===
-        formatDate(date)
+    (booking) => {
+      if (!booking.BookingDate) return false;
+
+      const bookingDate =
+        booking.BookingDate.split("T")[0];
+
+      return bookingDate === formatDate(date);
+    }
   );
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-
       <button
         onClick={() => navigate("/admin/dashboard")}
         className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6"
@@ -115,13 +129,16 @@ export default function CalendarPage() {
                 formatDate(date);
 
               const isBooked =
-                bookings.some(
-                  (booking) =>
-                    booking.BookingDate &&
+                bookings.some((booking) => {
+                  if (!booking.BookingDate)
+                    return false;
+
+                  return (
                     booking.BookingDate.split(
                       "T"
                     )[0] === calendarDate
-                );
+                  );
+                });
 
               return isBooked
                 ? "booked-date"
@@ -132,13 +149,16 @@ export default function CalendarPage() {
                 formatDate(date);
 
               const count =
-                bookings.filter(
-                  (booking) =>
-                    booking.BookingDate &&
+                bookings.filter((booking) => {
+                  if (!booking.BookingDate)
+                    return false;
+
+                  return (
                     booking.BookingDate.split(
                       "T"
                     )[0] === calendarDate
-                ).length;
+                  );
+                }).length;
 
               return (
                 <div
