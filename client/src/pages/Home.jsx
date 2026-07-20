@@ -5,7 +5,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-6">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-4">
       <div className="w-full max-w-2xl">
 
         {/* Logo */}
@@ -13,12 +13,12 @@ export default function Home() {
           <img
             src={logo}
             alt="Samadhi Arana Logo"
-            className="h-40 sm:h-56 md:h-72 lg:h-80 w-auto"
+            className="h-24 sm:h-36 md:h-56 lg:h-72 w-auto"
           />
         </div>
 
         {/* Title */}
-        <div className="text-center mb-6 md:mb-10">
+        <div className="text-center mb-5 md:mb-8">
           <h1 className="text-4xl font-bold leading-tight">
             2026
           </h1>
@@ -33,11 +33,11 @@ export default function Home() {
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-4 md:space-y-6">
+        <div className="space-y-4">
 
           <button
             onClick={() => navigate("/book")}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 md:py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
@@ -52,7 +52,7 @@ export default function Home() {
 
           <button
             onClick={() => navigate("/view-booking")}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 md:py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
