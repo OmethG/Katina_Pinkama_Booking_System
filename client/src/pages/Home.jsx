@@ -5,20 +5,20 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-6">
       <div className="w-full max-w-2xl">
 
         {/* Logo */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-3 md:mb-6">
           <img
             src={logo}
             alt="Samadhi Arana Logo"
-            className="h-80 w-auto"
+            className="h-40 sm:h-56 md:h-72 lg:h-80 w-auto"
           />
         </div>
 
         {/* Title */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-6 md:mb-10">
           <h1 className="text-4xl font-bold leading-tight">
             2026
           </h1>
@@ -27,17 +27,17 @@ export default function Home() {
             වස්සාන කාළය
           </h2>
 
-          <h2 className="text-3xl text-gray-500 font-normal leading-relaxed mt-4">
+          <h2 className="text-3xl text-gray-500 font-normal leading-relaxed mt-3">
             නිවෙස් වල පවත්වන පින්කම් සදහා
           </h2>
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
 
           <button
             onClick={() => navigate("/book")}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 md:py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
@@ -52,7 +52,7 @@ export default function Home() {
 
           <button
             onClick={() => navigate("/view-booking")}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 md:py-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200"
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
