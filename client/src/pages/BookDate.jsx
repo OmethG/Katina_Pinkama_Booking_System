@@ -30,18 +30,14 @@ export default function BookDate() {
 
   const formatDate = (date) => {
     const year = date.getFullYear();
-    const month = String(
-      date.getMonth() + 1
-    ).padStart(2, "0");
-    const day = String(
-      date.getDate()
-    ).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   };
 
   const minDate = new Date("2026-07-27");
-  const maxDate = new Date("2026-10-24");
+  const maxDate = new Date("2026-10-25");
 
   const isValidPhone = (number) => {
     const cleaned = number.replace(/\s+/g, "");
@@ -137,9 +133,7 @@ export default function BookDate() {
               type="text"
               placeholder="Full Name"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 bg-white"
             />
 
@@ -160,9 +154,7 @@ export default function BookDate() {
               type="text"
               placeholder="+971501234567 or +94771234567"
               value={phone}
-              onChange={(e) =>
-                setPhone(e.target.value)
-              }
+              onChange={(e) => setPhone(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 bg-white"
             />
 
@@ -183,9 +175,7 @@ export default function BookDate() {
               type="text"
               placeholder="+971501234567 or +94771234567"
               value={whatsapp}
-              onChange={(e) =>
-                setWhatsapp(e.target.value)
-              }
+              onChange={(e) => setWhatsapp(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 bg-white"
             />
 
@@ -204,9 +194,7 @@ export default function BookDate() {
 
             <select
               value={bookingType}
-              onChange={(e) =>
-                setBookingType(e.target.value)
-              }
+              onChange={(e) => setBookingType(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 bg-white"
             >
               <option value="">
@@ -244,19 +232,14 @@ export default function BookDate() {
               maxDate={maxDate}
               showNeighboringMonth={false}
               tileDisabled={({ date }) =>
-                bookedDates.includes(
-                  formatDate(date)
-                )
+                bookedDates.includes(formatDate(date))
               }
             />
           </div>
 
           <div className="text-sm text-gray-600">
             Booking Period:
-            <strong>
-              {" "}
-              27 July 2026 - 24 October 2026
-            </strong>
+            <strong> 27 July 2026 - 25 October 2026</strong>
           </div>
 
           <button
