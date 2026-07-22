@@ -8,8 +8,7 @@ export default function Bookings() {
 
   const [bookings, setBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedBookings, setSelectedBookings] =
-    useState([]);
+  const [selectedBookings, setSelectedBookings] = useState([]);
 
   const loadBookings = () => {
     axios
@@ -17,10 +16,7 @@ export default function Bookings() {
         "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/all"
       )
       .then((response) => {
-        const sorted = response.data.sort(
-          (a, b) => b.ID - a.ID
-        );
-
+        const sorted = response.data.sort((a, b) => b.ID - a.ID);
         setBookings(sorted);
       })
       .catch((error) => {
@@ -104,9 +100,7 @@ export default function Bookings() {
 
     const date = new Date(dateString);
 
-    if (isNaN(date.getTime())) {
-      return dateString;
-    }
+    if (isNaN(date.getTime())) return dateString;
 
     return date.toLocaleDateString("en-GB");
   };
@@ -116,9 +110,7 @@ export default function Bookings() {
 
     const date = new Date(dateString);
 
-    if (isNaN(date.getTime())) {
-      return "-";
-    }
+    if (isNaN(date.getTime())) return "-";
 
     return date.toLocaleTimeString("en-GB", {
       hour: "2-digit",
@@ -186,40 +178,26 @@ export default function Bookings() {
         <table className="w-full">
           <thead>
             <tr className="bg-orange-500 text-white">
-              <th className="text-left p-4">
-                Select
-              </th>
-              <th className="text-left p-4">
-                Booking ID
-              </th>
-              <th className="text-left p-4">
-                Name
-              </th>
-              <th className="text-left p-4">
-                Phone
-              </th>
-              <th className="text-left p-4">
-                WhatsApp
-              </th>
-              <th className="text-left p-4">
-                Booking Type
-              </th>
-              <th className="text-left p-4">
-                Booking Date
-              </th>
-              <th className="text-left p-4">
-                Booking Time
-              </th>
-              <th className="text-left p-4">
-                Status
-              </th>
-              <th className="text-left p-4">
-                Action
-              </th>
+              <th className="text-left p-4">Select</th>
+              <th className="text-left p-4">Booking ID</th>
+              <th className="text-left p-4">Name</th>
+              <th className="text-left p-4">Phone</th>
+              <th className="text-left p-4">WhatsApp</th>
+              <th className="text-left p-4">Booking Type</th>
+              <th className="text-left p-4">Booking Date</th>
+              <th className="text-left p-4">Booking Time</th>
+
+              <th className="text-left p-4">Villa / Apt</th>
+              <th className="text-left p-4">Building / Street</th>
+              <th className="text-left p-4">Area</th>
+              <th className="text-left p-4">City</th>
+              <th className="text-left p-4">Google Maps</th>
+
+              <th className="text-left p-4">Status</th>
+              <th className="text-left p-4">Action</th>
             </tr>
           </thead>
-
-          <tbody>
+                    <tbody>
             {filteredBookings.length > 0 ? (
               filteredBookings.map((booking) => (
                 <tr
@@ -227,17 +205,12 @@ export default function Bookings() {
                   className="border-b hover:bg-gray-50"
                 >
                   <td className="p-4">
-                    {booking.Status ===
-                    "Cancelled" ? (
+                    {booking.Status === "Cancelled" ? (
                       <input
                         type="checkbox"
-                        checked={selectedBookings.includes(
-                          booking.ID
-                        )}
+                        checked={selectedBookings.includes(booking.ID)}
                         onChange={() =>
-                          handleCheckboxChange(
-                            booking.ID
-                          )
+                          handleCheckboxChange(booking.ID)
                         }
                       />
                     ) : (
@@ -245,64 +218,80 @@ export default function Bookings() {
                     )}
                   </td>
 
-                  <td className="p-4">
-                    {booking.ID}
-                  </td>
+                  <td className="p-4">{booking.ID}</td>
 
-                  <td className="p-4">
-                    {booking.Name}
-                  </td>
+                  <td className="p-4">{booking.Name}</td>
 
-                  <td className="p-4">
-                    {booking.Phone}
-                  </td>
+                  <td className="p-4">{booking.Phone}</td>
 
-                  <td className="p-4">
-                    {booking.Whatsapp}
-                  </td>
+                  <td className="p-4">{booking.Whatsapp}</td>
 
                   <td className="p-4">
                     {booking.BookingType || "-"}
                   </td>
 
                   <td className="p-4">
-                    {formatBookingDate(
-                      booking.BookingDate
-                    )}
+                    {formatBookingDate(booking.BookingDate)}
                   </td>
 
                   <td className="p-4">
-                    {formatBookingTime(
-                      booking.CreatedAt
+                    {formatBookingTime(booking.CreatedAt)}
+                  </td>
+
+                  {/* NEW ADDRESS COLUMNS */}
+
+                  <td className="p-4">
+                    {booking.VillaApartmentNo || "-"}
+                  </td>
+
+                  <td className="p-4">
+                    {booking.BuildingStreet || "-"}
+                  </td>
+
+                  <td className="p-4">
+                    {booking.Area || "-"}
+                  </td>
+
+                  <td className="p-4">
+                    {booking.City || "-"}
+                  </td>
+
+                  <td className="p-4">
+                    {booking.GooglePin ? (
+                      <a
+                        href={booking.GooglePin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        Open Map
+                      </a>
+                    ) : (
+                      "-"
                     )}
                   </td>
 
                   <td className="p-4">
                     <span
                       className={
-                        booking.Status ===
-                        "Cancelled"
+                        booking.Status === "Cancelled"
                           ? "text-red-600 font-semibold"
                           : "text-green-600 font-semibold"
                       }
                     >
-                      {booking.Status ||
-                        "Active"}
+                      {booking.Status || "Active"}
                     </span>
                   </td>
 
                   <td className="p-4">
-                    {booking.Status ===
-                    "Cancelled" ? (
+                    {booking.Status === "Cancelled" ? (
                       <span className="text-gray-500">
                         Cancelled
                       </span>
                     ) : (
                       <button
                         onClick={() =>
-                          handleCancelBooking(
-                            booking.ID
-                          )
+                          handleCancelBooking(booking.ID)
                         }
                         className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
                       >
@@ -315,7 +304,7 @@ export default function Bookings() {
             ) : (
               <tr>
                 <td
-                  colSpan="10"
+                  colSpan="15"
                   className="text-center p-6 text-gray-500"
                 >
                   No bookings found
