@@ -291,13 +291,6 @@ export default function BookDate() {
                 <option value="Ras Al Khaimah">Ras Al Khaimah</option>
                 <option value="Fujairah">Fujairah</option>
                 <option value="Umm Al Quwain">Umm Al Quwain</option>
-                <option value="Al Ain">Al Ain</option>
-
-                {/* Optional Sri Lanka support */}
-                <option value="Colombo">Colombo</option>
-                <option value="Kandy">Kandy</option>
-                <option value="Galle">Galle</option>
-                <option value="Negombo">Negombo</option>
               </select>
             </div>
 
