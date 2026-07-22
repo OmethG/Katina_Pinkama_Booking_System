@@ -24,7 +24,7 @@ export default function Home() {
           </h1>
 
           <h2 className="text-3xl font-semibold mt-2">
-            වස්සාන කාළය
+            වස්සාන කාලය
           </h2>
 
           <h2 className="text-3xl text-gray-500 font-normal leading-relaxed mt-3">
@@ -56,7 +56,7 @@ export default function Home() {
           >
             <div className="flex flex-col items-center">
               <span className="text-2xl font-bold">
-                වෙන්කරවා ගැනීම බලන්න
+                වෙන් කල දිනයන් බලන්න
               </span>
 
               <span className="text-base font-normal mt-1">
