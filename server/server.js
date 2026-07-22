@@ -256,6 +256,15 @@ app.post("/api/bookings", async (req, res) => {
       BookingType,
       BookingDate,
     } = req.body;
+    console.log(req.body);
+
+    console.log({
+      VillaApartmentNo,
+      BuildingStreetNo,
+      Area,
+      City,
+      GoogleMapsPin,
+    });
 
     const address = `${VillaApartmentNo}, ${BuildingStreetNo}, ${Area}, ${City}`;
 
