@@ -13,7 +13,6 @@ export default function BookDate() {
   const [whatsapp, setWhatsapp] = useState("");
 
   // NEW ADDRESS FIELDS
-  const [address, setAddress] = useState("");
   const [villaNo, setVillaNo] = useState("");
   const [buildingNo, setBuildingNo] = useState("");
   const [area, setArea] = useState("");
@@ -78,7 +77,6 @@ export default function BookDate() {
     isValidFullName(name) &&
     isValidPhone(phone) &&
     isValidPhone(whatsapp) &&
-    address.trim() !== "" &&
     villaNo.trim() !== "" &&
     buildingNo.trim() !== "" &&
     area.trim() !== "" &&
@@ -96,7 +94,6 @@ export default function BookDate() {
           Whatsapp: whatsapp.replace(/\s+/g, ""),
 
           // NEW FIELDS
-          Address: address,
           VillaApartmentNo: villaNo,
           BuildingStreetNo: buildingNo,
           Area: area,
@@ -208,21 +205,12 @@ export default function BookDate() {
             )}
           </div>
 
-          {/* Address */}
+          {/* Address Section */}
           <div>
-            <label className="block mb-2 font-medium">
+            <h3 className="text-lg font-semibold text-gray-800">
               Address
-            </label>
-
-            <textarea
-              rows={3}
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter full address"
-              className="w-full border rounded-lg px-4 py-3 bg-white"
-            />
+            </h3>
           </div>
-
           {/* Villa + Building */}
           <div className="grid md:grid-cols-2 gap-4">
 
@@ -369,7 +357,7 @@ export default function BookDate() {
 
           <div className="text-sm text-gray-600">
             Booking Period:
-            <strong> 1st August 2026 - 25 October 2026</strong>
+            <strong> 01 August 2026 - 25 October 2026</strong>
           </div>
 
           <button
