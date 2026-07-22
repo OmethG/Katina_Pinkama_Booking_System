@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import LocationPicker from "../components/LocationPicker";
 
 export default function BookDate() {
   const navigate = useNavigate();
@@ -17,7 +18,10 @@ export default function BookDate() {
   const [buildingNo, setBuildingNo] = useState("");
   const [area, setArea] = useState("");
   const [city, setCity] = useState("");
-  const [googleMapsPin, setGoogleMapsPin] = useState("");
+  const [location, setLocation] = useState({
+    lat: null,
+    lng: null,
+  });
 
   const [bookingType, setBookingType] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -81,11 +85,14 @@ export default function BookDate() {
     buildingNo.trim() !== "" &&
     area.trim() !== "" &&
     city.trim() !== "" &&
+    location.lat !== null &&
+    location.lng !== null &&
     bookingType &&
     selectedDate;
 
   const handleBooking = async () => {
     try {
+      const googleMapsPin = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
       const response = await axios.post(
         "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings",
         {
@@ -285,21 +292,16 @@ export default function BookDate() {
           </div>
 
           {/* Google Maps */}
+          {/* Location */}
           <div>
-            <label className="block mb-2 font-medium">
-              Google Maps Pin (Optional)
-            </label>
-
-            <input
-              type="url"
-              value={googleMapsPin}
-              onChange={(e) => setGoogleMapsPin(e.target.value)}
-              placeholder="https://maps.google.com/..."
-              className="w-full border rounded-lg px-4 py-3 bg-white"
+            <LocationPicker
+              location={location}
+              setLocation={setLocation}
             />
 
-            <p className="text-sm text-gray-500 mt-1">
-              Paste your Google Maps location link if available.
+            <p className="text-sm text-gray-500 mt-2">
+              Search for your address or click on the map to place the marker.
+              You can drag the marker to the exact location.
             </p>
           </div>
 
