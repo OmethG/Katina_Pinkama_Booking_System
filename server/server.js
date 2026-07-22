@@ -236,15 +236,28 @@ app.post("/api/bookings/search", async (req, res) => {
 // CREATE BOOKING
 // ==========================================
 
+// ==========================================
+// CREATE BOOKING
+// ==========================================
+
 app.post("/api/bookings", async (req, res) => {
   try {
     const {
       Name,
       Phone,
       Whatsapp,
+
+      VillaApartmentNo,
+      BuildingStreetNo,
+      Area,
+      City,
+      GoogleMapsPin,
+
       BookingType,
       BookingDate,
     } = req.body;
+
+    const address = `${VillaApartmentNo}, ${BuildingStreetNo}, ${Area}, ${City}`;
 
     const [result] = await db.query(
       `
@@ -257,9 +270,15 @@ app.post("/api/bookings", async (req, res) => {
         BookingType,
         BookingDate,
         Status,
+        Address,
+        VillaApartmentNo,
+        BuildingStreet,
+        Area,
+        City,
+        GooglePin,
         CreatedAt
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
       `,
       [
         Name,
@@ -269,6 +288,13 @@ app.post("/api/bookings", async (req, res) => {
         BookingType || null,
         BookingDate,
         "Active",
+
+        address,
+        VillaApartmentNo,
+        BuildingStreetNo,
+        Area,
+        City,
+        GoogleMapsPin || null,
       ]
     );
 
@@ -285,7 +311,6 @@ app.post("/api/bookings", async (req, res) => {
     });
   }
 });
-
 // ==========================================
 // CANCEL BOOKING
 // ==========================================
