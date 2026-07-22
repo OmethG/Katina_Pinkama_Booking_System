@@ -359,6 +359,7 @@ export default function BookDate() {
               value={selectedDate}
               minDate={minDate}
               maxDate={maxDate}
+              defaultActiveStartDate={new Date("2026-08-01")}
               showNeighboringMonth={false}
               tileDisabled={({ date }) =>
                 bookedDates.includes(formatDate(date))
