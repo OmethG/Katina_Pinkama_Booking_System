@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import LocationPicker from "../components/LocationPicker";
 
 export default function BookDate() {
   const navigate = useNavigate();
@@ -13,15 +12,12 @@ export default function BookDate() {
   const [phone, setPhone] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
 
-  // NEW ADDRESS FIELDS
+  // ADDRESS FIELDS
   const [villaNo, setVillaNo] = useState("");
   const [buildingNo, setBuildingNo] = useState("");
   const [area, setArea] = useState("");
   const [city, setCity] = useState("");
-  const [location, setLocation] = useState({
-    lat: null,
-    lng: null,
-  });
+  const [googleMapsPin, setGoogleMapsPin] = useState("");
 
   const [bookingType, setBookingType] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -85,14 +81,11 @@ export default function BookDate() {
     buildingNo.trim() !== "" &&
     area.trim() !== "" &&
     city.trim() !== "" &&
-    location.lat !== null &&
-    location.lng !== null &&
     bookingType &&
     selectedDate;
 
   const handleBooking = async () => {
     try {
-      const googleMapsPin = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
       const response = await axios.post(
         "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings",
         {
@@ -100,7 +93,6 @@ export default function BookDate() {
           Phone: phone.replace(/\s+/g, ""),
           Whatsapp: whatsapp.replace(/\s+/g, ""),
 
-          // NEW FIELDS
           VillaApartmentNo: villaNo,
           BuildingStreetNo: buildingNo,
           Area: area,
@@ -149,7 +141,7 @@ export default function BookDate() {
 
         <div className="space-y-5">
 
-          {/* Full Name */}
+                  {/* Full Name */}
           <div>
             <label className="block mb-2 font-medium">
               Full Name
@@ -212,12 +204,13 @@ export default function BookDate() {
             )}
           </div>
 
-          {/* Address Section */}
+          {/* Address */}
           <div>
             <h3 className="text-lg font-semibold text-gray-800">
               Address
             </h3>
           </div>
+
           {/* Villa + Building */}
           <div className="grid md:grid-cols-2 gap-4">
 
@@ -250,7 +243,8 @@ export default function BookDate() {
             </div>
 
           </div>
-                    {/* Area + City */}
+
+          {/* Area + City */}
           <div className="grid md:grid-cols-2 gap-4">
 
             <div>
@@ -291,21 +285,27 @@ export default function BookDate() {
 
           </div>
 
-          {/* Google Maps */}
-          {/* Location */}
+          {/* Google Maps Pin */}
           <div>
-            <LocationPicker
-              location={location}
-              setLocation={setLocation}
+            <label className="block mb-2 font-medium">
+              Google Maps Pin (Optional)
+            </label>
+
+            <input
+              type="text"
+              value={googleMapsPin}
+              onChange={(e) => setGoogleMapsPin(e.target.value)}
+              placeholder="Paste your Google Maps link here"
+              className="w-full border rounded-lg px-4 py-3 bg-white"
             />
 
             <p className="text-sm text-gray-500 mt-2">
-              Search for your address or click on the map to place the marker.
-              You can drag the marker to the exact location.
+              Open Google Maps, drop a pin on your location, tap
+              <strong> Share</strong>, then paste the link here.
             </p>
           </div>
 
-          {/* Booking Type */}
+                    {/* Booking Type */}
           <div>
             <label className="block mb-2 font-medium">
               Booking Type / අවශ්‍යය පිංකම
@@ -373,8 +373,7 @@ export default function BookDate() {
           >
             Book Date
           </button>
-
-        </div>
+          </div>
       </div>
     </div>
   );
