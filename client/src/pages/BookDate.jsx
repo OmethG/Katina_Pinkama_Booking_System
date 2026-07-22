@@ -11,6 +11,15 @@ export default function BookDate() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+
+  // NEW ADDRESS FIELDS
+  const [address, setAddress] = useState("");
+  const [villaNo, setVillaNo] = useState("");
+  const [buildingNo, setBuildingNo] = useState("");
+  const [area, setArea] = useState("");
+  const [city, setCity] = useState("");
+  const [googleMapsPin, setGoogleMapsPin] = useState("");
+
   const [bookingType, setBookingType] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [bookedDates, setBookedDates] = useState([]);
@@ -36,14 +45,12 @@ export default function BookDate() {
     return `${year}-${month}-${day}`;
   };
 
-  const minDate = new Date("2026-07-27");
+  const minDate = new Date("2026-08-01");
   const maxDate = new Date("2026-10-25");
 
   const isValidPhone = (number) => {
     const cleaned = number.replace(/\s+/g, "");
-
     const regex = /^(\+971\d{9}|\+94\d{9})$/;
-
     return regex.test(cleaned);
   };
 
@@ -71,6 +78,11 @@ export default function BookDate() {
     isValidFullName(name) &&
     isValidPhone(phone) &&
     isValidPhone(whatsapp) &&
+    address.trim() !== "" &&
+    villaNo.trim() !== "" &&
+    buildingNo.trim() !== "" &&
+    area.trim() !== "" &&
+    city.trim() !== "" &&
     bookingType &&
     selectedDate;
 
@@ -82,6 +94,15 @@ export default function BookDate() {
           Name: name,
           Phone: phone.replace(/\s+/g, ""),
           Whatsapp: whatsapp.replace(/\s+/g, ""),
+
+          // NEW FIELDS
+          Address: address,
+          VillaApartmentNo: villaNo,
+          BuildingStreetNo: buildingNo,
+          Area: area,
+          City: city,
+          GoogleMapsPin: googleMapsPin,
+
           BookingType: bookingType,
           BookingDate: formatDate(selectedDate),
         }
@@ -123,6 +144,7 @@ export default function BookDate() {
         </p>
 
         <div className="space-y-5">
+
           {/* Full Name */}
           <div>
             <label className="block mb-2 font-medium">
@@ -186,6 +208,120 @@ export default function BookDate() {
             )}
           </div>
 
+          {/* Address */}
+          <div>
+            <label className="block mb-2 font-medium">
+              Address
+            </label>
+
+            <textarea
+              rows={3}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter full address"
+              className="w-full border rounded-lg px-4 py-3 bg-white"
+            />
+          </div>
+
+          {/* Villa + Building */}
+          <div className="grid md:grid-cols-2 gap-4">
+
+            <div>
+              <label className="block mb-2 font-medium">
+                Villa / Apartment No
+              </label>
+
+              <input
+                type="text"
+                value={villaNo}
+                onChange={(e) => setVillaNo(e.target.value)}
+                placeholder="Villa / Apartment No"
+                className="w-full border rounded-lg px-4 py-3 bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-medium">
+                Building / Street No
+              </label>
+
+              <input
+                type="text"
+                value={buildingNo}
+                onChange={(e) => setBuildingNo(e.target.value)}
+                placeholder="Building / Street No"
+                className="w-full border rounded-lg px-4 py-3 bg-white"
+              />
+            </div>
+
+          </div>
+                    {/* Area + City */}
+          <div className="grid md:grid-cols-2 gap-4">
+
+            <div>
+              <label className="block mb-2 font-medium">
+                Area
+              </label>
+
+              <input
+                type="text"
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
+                placeholder="Area"
+                className="w-full border rounded-lg px-4 py-3 bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-medium">
+                City
+              </label>
+
+              <select
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="w-full border rounded-lg px-4 py-3 bg-white"
+              >
+                <option value="">Select City</option>
+
+                <option value="Abu Dhabi">Abu Dhabi</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Sharjah">Sharjah</option>
+                <option value="Ajman">Ajman</option>
+                <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                <option value="Fujairah">Fujairah</option>
+                <option value="Umm Al Quwain">Umm Al Quwain</option>
+                <option value="Al Ain">Al Ain</option>
+
+                {/* Optional Sri Lanka support */}
+                <option value="Colombo">Colombo</option>
+                <option value="Kandy">Kandy</option>
+                <option value="Galle">Galle</option>
+                <option value="Negombo">Negombo</option>
+              </select>
+            </div>
+
+          </div>
+
+          {/* Google Maps */}
+          <div>
+            <label className="block mb-2 font-medium">
+              Google Maps Pin (Optional)
+            </label>
+
+            <input
+              type="url"
+              value={googleMapsPin}
+              onChange={(e) => setGoogleMapsPin(e.target.value)}
+              placeholder="https://maps.google.com/..."
+              className="w-full border rounded-lg px-4 py-3 bg-white"
+            />
+
+            <p className="text-sm text-gray-500 mt-1">
+              Paste your Google Maps location link if available.
+            </p>
+          </div>
+
           {/* Booking Type */}
           <div>
             <label className="block mb-2 font-medium">
@@ -239,7 +375,7 @@ export default function BookDate() {
 
           <div className="text-sm text-gray-600">
             Booking Period:
-            <strong> 27 July 2026 - 25 October 2026</strong>
+            <strong> 1st August 2026 - 25 October 2026</strong>
           </div>
 
           <button
@@ -253,6 +389,7 @@ export default function BookDate() {
           >
             Book Date
           </button>
+
         </div>
       </div>
     </div>
