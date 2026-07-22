@@ -236,26 +236,21 @@ app.post("/api/bookings/search", async (req, res) => {
 // CREATE BOOKING
 // ==========================================
 
-// ==========================================
-// CREATE BOOKING
-// ==========================================
-
 app.post("/api/bookings", async (req, res) => {
   try {
     const {
       Name,
       Phone,
       Whatsapp,
-
       VillaApartmentNo,
       BuildingStreetNo,
       Area,
       City,
       GoogleMapsPin,
-
       BookingType,
       BookingDate,
     } = req.body;
+
     console.log(req.body);
 
     console.log({
@@ -267,6 +262,22 @@ app.post("/api/bookings", async (req, res) => {
     });
 
     const address = `${VillaApartmentNo}, ${BuildingStreetNo}, ${Area}, ${City}`;
+
+    console.log("Insert values:", [
+      Name,
+      Whatsapp || null,
+      Phone || null,
+      0,
+      BookingType || null,
+      BookingDate,
+      "Active",
+      address,
+      VillaApartmentNo,
+      BuildingStreetNo,
+      Area,
+      City,
+      GoogleMapsPin || null,
+    ]);
 
     const [result] = await db.query(
       `
@@ -297,7 +308,6 @@ app.post("/api/bookings", async (req, res) => {
         BookingType || null,
         BookingDate,
         "Active",
-
         address,
         VillaApartmentNo,
         BuildingStreetNo,
@@ -306,6 +316,8 @@ app.post("/api/bookings", async (req, res) => {
         GoogleMapsPin || null,
       ]
     );
+
+    console.log("Inserted booking ID:", result.insertId);
 
     res.json({
       success: true,
