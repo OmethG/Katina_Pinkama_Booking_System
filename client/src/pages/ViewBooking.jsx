@@ -7,6 +7,7 @@ export default function ViewBooking() {
   const navigate = useNavigate();
 
   const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [bookings, setBookings] = useState([]);
   const [searched, setSearched] = useState(false);
   const [phoneError, setPhoneError] = useState("");
@@ -23,22 +24,29 @@ export default function ViewBooking() {
   const formatBookingDate = (dateString) => {
     if (!dateString) return "-";
 
-    const [year, month, day] = dateString
-      .split("T")[0]
-      .split("-");
+    const [year, month, day] = dateString.split("T")[0].split("-");
 
     return `${day}/${month}/${year}`;
   };
 
   const handleSearch = async () => {
-    if (!phone.trim()) {
-      setPhoneError("Please enter a phone number.");
+    if (!phone.trim() && !whatsapp.trim()) {
+      setPhoneError(
+        "Please enter either a Phone Number or a WhatsApp Number."
+      );
       return;
     }
 
-    if (!isValidPhone(phone)) {
+    if (phone.trim() && !isValidPhone(phone)) {
       setPhoneError(
-        "Please enter a valid phone number starting with +971 or +94 and 9 digits."
+        "Please enter a valid Phone Number starting with +971 or +94."
+      );
+      return;
+    }
+
+    if (whatsapp.trim() && !isValidPhone(whatsapp)) {
+      setPhoneError(
+        "Please enter a valid WhatsApp Number starting with +971 or +94."
       );
       return;
     }
@@ -46,10 +54,12 @@ export default function ViewBooking() {
     setPhoneError("");
 
     try {
-      const cleanedPhone = phone.replace(/\s+/g, "");
-
-      const response = await axios.get(
-        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/search/${cleanedPhone}`
+      const response = await axios.post(
+        "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/search",
+        {
+          phone: phone.replace(/\s+/g, ""),
+          whatsapp: whatsapp.replace(/\s+/g, ""),
+        }
       );
 
       setBookings(response.data);
@@ -63,7 +73,6 @@ export default function ViewBooking() {
   return (
     <div className="min-h-screen bg-[#f3f3f3] flex justify-center items-start py-12">
       <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-8">
-
         <button
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6"
@@ -76,16 +85,27 @@ export default function ViewBooking() {
           View My Booking
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-2">
+        <div className="flex flex-col gap-4 mb-4">
           <input
             type="text"
-            placeholder="Enter a valid phone number (+971 or +94)"
+            placeholder="Enter Phone Number"
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
               setPhoneError("");
             }}
-            className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+
+          <input
+            type="text"
+            placeholder="Enter WhatsApp Number"
+            value={whatsapp}
+            onChange={(e) => {
+              setWhatsapp(e.target.value);
+              setPhoneError("");
+            }}
+            className="border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
 
           <button
@@ -97,9 +117,7 @@ export default function ViewBooking() {
         </div>
 
         {phoneError && (
-          <p className="text-red-500 text-sm mb-6">
-            {phoneError}
-          </p>
+          <p className="text-red-500 text-sm mb-6">{phoneError}</p>
         )}
 
         {searched && bookings.length === 0 && !phoneError && (
@@ -136,9 +154,7 @@ export default function ViewBooking() {
                       {booking.BookingType || "-"}
                     </td>
                     <td className="p-4">
-                      {formatBookingDate(
-                        booking.BookingDate
-                      )}
+                      {formatBookingDate(booking.BookingDate)}
                     </td>
                   </tr>
                 ))}
@@ -146,7 +162,6 @@ export default function ViewBooking() {
             </table>
           </div>
         )}
-
       </div>
     </div>
   );

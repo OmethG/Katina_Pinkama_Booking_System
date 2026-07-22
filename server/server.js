@@ -179,26 +179,53 @@ app.get("/api/booked-dates", async (req, res) => {
 });
 
 // ==========================================
-// SEARCH ACTIVE BOOKINGS ONLY
+// SEARCH ACTIVE BOOKINGS BY PHONE OR WHATSAPP
 // ==========================================
 
-app.get("/api/bookings/search/:phone", async (req, res) => {
+app.post("/api/bookings/search", async (req, res) => {
   try {
-    const phone = req.params.phone;
+    const { phone, whatsapp } = req.body;
 
-    const [rows] = await db.query(
-      `
+    const cleanedPhone = (phone || "").trim();
+    const cleanedWhatsapp = (whatsapp || "").trim();
+
+    let query = `
       SELECT *
       FROM bookings
-      WHERE (Phone = ? OR Whatsapp = ?)
-      AND Status = 'Active'
+      WHERE Status = 'Active'
+    `;
+
+    const params = [];
+
+    if (cleanedPhone && cleanedWhatsapp) {
+      query += `
+        AND (Phone = ? OR Whatsapp = ?)
+      `;
+      params.push(cleanedPhone, cleanedWhatsapp);
+    } else if (cleanedPhone) {
+      query += `
+        AND Phone = ?
+      `;
+      params.push(cleanedPhone);
+    } else if (cleanedWhatsapp) {
+      query += `
+        AND Whatsapp = ?
+      `;
+      params.push(cleanedWhatsapp);
+    } else {
+      return res.json([]);
+    }
+
+    query += `
       ORDER BY ID DESC
-      `,
-      [phone, phone]
-    );
+    `;
+
+    const [rows] = await db.query(query, params);
 
     res.json(rows);
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       error: error.message,
     });
