@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   const [bookings, setBookings] = useState([]);
 
-  useEffect(() => {
+  const loadBookings = () => {
     axios
       .get(
         "https://katinapinkamabookingsystem-production.up.railway.app/api/bookings"
@@ -23,7 +23,33 @@ export default function Dashboard() {
       .catch((error) => {
         console.error("Error loading bookings:", error);
       });
+  };
+
+  useEffect(() => {
+    loadBookings();
   }, []);
+
+  const handleCancelBooking = async (bookingId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this booking?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await axios.patch(
+        `https://katinapinkamabookingsystem-production.up.railway.app/api/bookings/${bookingId}/cancel`
+      );
+
+      alert("Booking cancelled successfully.");
+
+      loadBookings();
+    } catch (error) {
+      console.error(error);
+
+      alert("Failed to cancel booking.");
+    }
+  };
 
   const totalBookings = bookings.length;
 
@@ -57,169 +83,257 @@ export default function Dashboard() {
 
     const date = new Date(dateString);
 
-    if (isNaN(date.getTime())) {
-      return "-";
-    }
+    if (isNaN(date.getTime())) return "-";
 
     return date.toLocaleDateString("en-GB");
   };
 
+  const formatBookingTime = (dateString) => {
+    if (!dateString) return "-";
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) return "-";
+
+    return date.toLocaleString("en-GB");
+  };
+
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-lg">
-        <div className="p-6 border-b">
-          <h1 className="text-2xl font-bold text-orange-500">
-            Samadhi Arana
-          </h1>
-        </div>
 
-        <nav className="p-4 space-y-2">
-          <button
-            onClick={() => navigate("/admin/dashboard")}
-            className="w-full flex items-center gap-3 px-4 py-3 bg-orange-500 text-white rounded-xl"
-          >
-            <Users size={20} />
-            Dashboard
-          </button>
-
-          <button
-            onClick={() => navigate("/admin/bookings")}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
-          >
-            <Calendar size={20} />
-            Bookings
-          </button>
-
-          <button
-            onClick={() => navigate("/admin/calendar")}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
-          >
-            <Calendar size={20} />
-            Calendar
-          </button>
-
-          <button
-            onClick={() => navigate("/admin")}
-            className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl"
-          >
-            <LogOut size={20} />
-            Logout
-          </button>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-8">
-        <h2 className="text-3xl font-bold mb-8">
-          Dashboard
-        </h2>
-
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-white p-6 rounded-2xl shadow">
-            <h3 className="text-gray-500 text-sm">
-              Total Bookings
-            </h3>
-
-            <p className="text-4xl font-bold text-orange-500 mt-2">
-              {totalBookings}
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow">
-            <h3 className="text-gray-500 text-sm">
-              This Month
-            </h3>
-
-            <p className="text-4xl font-bold text-green-500 mt-2">
-              {currentMonthBookings}
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow">
-            <h3 className="text-gray-500 text-sm">
-              Upcoming Bookings
-            </h3>
-
-            <p className="text-4xl font-bold text-blue-500 mt-2">
-              {upcomingBookings}
-            </p>
-          </div>
-        </div>
-
-        {/* Latest Bookings */}
-        <div className="bg-white rounded-2xl shadow p-6">
-          <h3 className="text-2xl font-semibold mb-4">
-            Latest 5 Bookings
-          </h3>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b bg-gray-50">
-                  <th className="text-left py-3 px-2 w-16">
-                    ID
-                  </th>
-
-                  <th className="text-left py-3 px-2 w-1/4">
-                    Name
-                  </th>
-
-                  <th className="text-left py-3 px-2 w-1/5">
-                    Phone
-                  </th>
-
-                  <th className="text-left py-3 px-2">
-                    Booking Type
-                  </th>
-
-                  <th className="text-left py-3 px-2 w-32">
-                    Date
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {latestBookings.map((booking) => (
-                  <tr
-                    key={booking.ID}
-                    className="border-b hover:bg-gray-50"
-                  >
-                    <td className="py-3 px-2 font-medium text-gray-600">
-                      {booking.ID}
-                    </td>
-
-                    <td className="py-3 px-2">
-                      {booking.Name}
-                    </td>
-
-                    <td className="py-3 px-2">
-                      {booking.Phone}
-                    </td>
-
-                    <td className="py-3 px-2 text-gray-700">
-                      {booking.BookingType || "-"}
-                    </td>
-
-                    <td className="py-3 px-2">
-                      {formatBookingDate(
-                        booking.BookingDate
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {bookings.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                Loading bookings...
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+<div className="min-h-screen flex bg-gray-100">
+  {/* Sidebar */}
+  <div className="w-64 bg-white shadow-lg">
+    <div className="p-6 border-b">
+      <h1 className="text-2xl font-bold text-orange-500">
+        Samadhi Arana
+      </h1>
     </div>
+
+    <nav className="p-4 space-y-2">
+      <button
+        onClick={() => navigate("/admin/dashboard")}
+        className="w-full flex items-center gap-3 px-4 py-3 bg-orange-500 text-white rounded-xl"
+      >
+        <Users size={20} />
+        Dashboard
+      </button>
+
+      <button
+        onClick={() => navigate("/admin/bookings")}
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
+      >
+        <Calendar size={20} />
+        Bookings
+      </button>
+
+      <button
+        onClick={() => navigate("/admin/calendar")}
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-xl"
+      >
+        <Calendar size={20} />
+        Calendar
+      </button>
+
+      <button
+        onClick={() => navigate("/admin")}
+        className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl"
+      >
+        <LogOut size={20} />
+        Logout
+      </button>
+    </nav>
+  </div>
+
+  {/* Main Content */}
+  <div className="flex-1 p-8">
+
+    <h2 className="text-3xl font-bold mb-8">
+      Dashboard
+    </h2>
+
+    {/* Statistics Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+      <div className="bg-white p-6 rounded-2xl shadow">
+        <h3 className="text-gray-500 text-sm">
+          Total Bookings
+        </h3>
+
+        <p className="text-4xl font-bold text-orange-500 mt-2">
+          {totalBookings}
+        </p>
+      </div>
+
+      <div className="bg-white p-6 rounded-2xl shadow">
+        <h3 className="text-gray-500 text-sm">
+          This Month
+        </h3>
+
+        <p className="text-4xl font-bold text-green-500 mt-2">
+          {currentMonthBookings}
+        </p>
+      </div>
+
+      <div className="bg-white p-6 rounded-2xl shadow">
+        <h3 className="text-gray-500 text-sm">
+          Upcoming Bookings
+        </h3>
+
+        <p className="text-4xl font-bold text-blue-500 mt-2">
+          {upcomingBookings}
+        </p>
+      </div>
+
+    </div>
+
+    {/* Latest Bookings */}
+    <div className="bg-white rounded-2xl shadow p-6">
+
+      <h3 className="text-2xl font-semibold mb-6">
+        Latest 5 Bookings
+      </h3>
+
+      {latestBookings.length > 0 ? (
+
+        <div className="space-y-5">
+
+          {latestBookings.map((booking) => (
+
+            <div
+              key={booking.ID}
+              className="border border-orange-200 rounded-xl p-5 hover:bg-orange-50"
+            >
+                          <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+
+                <p>
+                  <strong>Booking ID:</strong>{" "}
+                  {booking.ID}
+                </p>
+
+                <p>
+                  <strong>Status:</strong>{" "}
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      booking.Status === "Cancelled"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-green-100 text-green-600"
+                    }`}
+                  >
+                    {booking.Status || "Active"}
+                  </span>
+                </p>
+
+                <p>
+                  <strong>Name:</strong>{" "}
+                  {booking.Name}
+                </p>
+
+                <p>
+                  <strong>Phone:</strong>{" "}
+                  {booking.Phone}
+                </p>
+
+                <p>
+                  <strong>WhatsApp:</strong>{" "}
+                  {booking.Whatsapp}
+                </p>
+
+                <p>
+                  <strong>Booking Type:</strong>{" "}
+                  {booking.BookingType || "-"}
+                </p>
+
+                <p>
+                  <strong>Booking Date:</strong>{" "}
+                  {formatBookingDate(
+                    booking.BookingDate
+                  )}
+                </p>
+
+                <p>
+                  <strong>Booked On:</strong>{" "}
+                  {formatBookingTime(
+                    booking.CreatedAt
+                  )}
+                </p>
+
+              </div>
+
+              <div className="mt-5 border-t pt-4">
+
+                <h3 className="font-semibold text-gray-700 mb-3">
+                  Address
+                </h3>
+
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+
+                  <p>
+                    <strong>Villa / Apartment:</strong>{" "}
+                    {booking.VillaApartmentNo || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Building / Street:</strong>{" "}
+                    {booking.BuildingStreetNo || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Area:</strong>{" "}
+                    {booking.Area || "-"}
+                  </p>
+
+                  <p>
+                    <strong>City:</strong>{" "}
+                    {booking.City || "-"}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div className="flex flex-wrap gap-3 mt-6">
+
+                {booking.GoogleMapsPin && (
+                  <a
+                    href={booking.GoogleMapsPin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  >
+                    Open Google Maps
+                  </a>
+                )}
+
+                {booking.Status !== "Cancelled" && (
+                  <button
+                    onClick={() =>
+                      handleCancelBooking(
+                        booking.ID
+                      )
+                    }
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                  >
+                    Cancel Booking
+                  </button>
+                )}
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      ) : (
+
+        <div className="text-center py-8 text-gray-500">
+          No bookings found.
+        </div>
+
+      )}
+          </div>
+  </div>
+</div>
   );
 }
