@@ -168,6 +168,10 @@ export default function CalendarPage() {
       <Calendar
         onChange={setDate}
         value={date}
+        defaultActiveStartDate={new Date("2026-08-01")}
+        minDate={new Date("2026-08-01")}
+        maxDate={new Date("2026-10-25")}
+        
         tileClassName={({ date }) => {
           const calendarDate = formatDate(date);
 
