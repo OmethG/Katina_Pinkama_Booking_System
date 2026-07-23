@@ -462,12 +462,25 @@ app.get("/api/export-bookings", async (req, res) => {
     };
 
     let csv =
-      "ID,Name,Whatsapp,Phone,BookingTypeID,BookingType,BookingDate,Status,CreatedAt\n";
+       "ID,Name,Whatsapp,Phone,BookingTypeID,BookingType,BookingDate,VillaApartmentNo,BuildingStreet,Area,City,GoogleMapsPin,Status,CreatedAt\n";
 
     rows.forEach((row) => {
-      csv += `${row.ID},"${row.Name || ""}","${row.Whatsapp || ""}","${row.Phone || ""}",${row.BookingTypeID},"${row.BookingType || ""}","${formatDate(row.BookingDate)}","${row.Status || ""}","${formatDateTime(row.CreatedAt)}"\n`;
+      csv +=
+        `${row.ID},` +
+        `"${row.Name || ""}",` +
+        `"${row.Whatsapp || ""}",` +
+        `"${row.Phone || ""}",` +
+        `${row.BookingTypeID},` +
+        `"${row.BookingType || ""}",` +
+        `"${formatDate(row.BookingDate)}",` +
+        `"${row.VillaApartmentNo || ""}",` +
+        `"${row.BuildingStreet || ""}",` +
+        `"${row.Area || ""}",` +
+        `"${row.City || ""}",` +
+        `"${row.GooglePin || ""}",` +
+        `"${row.Status || ""}",` +
+        `"${formatDateTime(row.CreatedAt)}"\n`;
     });
-
     // UTF-8 BOM for Excel Sinhala support
     const csvWithBom = "\uFEFF" + csv;
 
